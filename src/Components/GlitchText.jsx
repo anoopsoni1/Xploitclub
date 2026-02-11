@@ -162,7 +162,10 @@ const FuzzyText = ({
       }
 
       const actualAscent = lineMetrics[0]?.ascent ?? numericFontSize;
-      const actualDescent = lineMetrics[0]?.height - (lineMetrics[0]?.ascent ?? numericFontSize) ?? numericFontSize * 0.2;
+      const firstLine = lineMetrics[0];
+      const actualDescent = (firstLine?.height != null && firstLine?.ascent != null)
+        ? firstLine.height - firstLine.ascent
+        : numericFontSize * 0.2;
       const textBoundingWidth = maxWidth;
       const tightHeight = lines.length > 1 
         ? (lineHeight * lines.length) 

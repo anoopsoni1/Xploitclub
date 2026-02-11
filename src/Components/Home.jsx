@@ -1,14 +1,33 @@
 import React, { useState, useRef, useEffect } from "react";
-import { FaShield } from "react-icons/fa6";
+import { FaHeartbeat } from "react-icons/fa";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import FuzzyText from "./GlitchText";
-
+import { Link } from "react-router-dom";
+import { FaShield } from "react-icons/fa6";
 gsap.registerPlugin(ScrollTrigger);
+
+const HACK_WORDS = ["Future.", "Code.", "Systems.", "Networks.", "Reality."];
+const SECURE_WORDS = ["World.", "Networks.", "Data.", "Systems.", "Future."];
 
 export default function Home() {
   const [showContent, setShowContent] = useState(false);
+  const [hackIndex, setHackIndex] = useState(0);
+  const [secureIndex, setSecureIndex] = useState(0);
+
+  useEffect(() => {
+    if (!showContent) return;
+    const hackInterval = setInterval(() => {
+      setHackIndex((i) => (i + 1) % HACK_WORDS.length);
+    }, 2500);
+    const secureInterval = setInterval(() => {
+      setSecureIndex((i) => (i + 1) % SECURE_WORDS.length);
+    }, 2500);
+    return () => {
+      clearInterval(hackInterval);
+      clearInterval(secureInterval);
+    };
+  }, [showContent]);
 
   const introRef = useRef(null);
   const horizontalRef = useRef(null);
@@ -56,11 +75,22 @@ export default function Home() {
     { dependencies: [showContent] }
   );
 
+  useGSAP(
+    () => {
+      if (!showContent) return;
+      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
+      tl.from(".hero-header", { y: -24, opacity: 0, duration: 0.5 })
+        .from(".hero-title", { y: 32, opacity: 0, duration: 0.6 }, "-=0.2")
+        .from(".hero-desc", { y: 20, opacity: 0, duration: 0.5 }, "-=0.35")
+        .from(".hero-ctas", { y: 16, opacity: 0, duration: 0.4 }, "-=0.3")
+        .from(".hero-feed", { x: 48, opacity: 0, duration: 0.6 }, "-=0.5");
+    },
+    { dependencies: [showContent] }
+  );
+
   useEffect(() => {
     if (showContent && videoRef.current) {
-      videoRef.current.play().catch((error) => {
-        console.error("Error playing video:", error);
-      });
+      videoRef.current.play().catch((err) => console.error("Video play failed:", err));
     }
   }, [showContent]);
 
@@ -69,9 +99,13 @@ export default function Home() {
       {!showContent && (
         <div
           ref={introRef}
-          className="svg fixed inset-0 z-100 flex items-center justify-center bg-black"
+          className="svg fixed inset-0 z-100 flex items-center justify-center bg-black w-full h-full min-h-screen"
         >
-          <svg viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice">
+          <svg 
+            viewBox="0 0 800 600" 
+            preserveAspectRatio="xMidYMid slice" 
+            className="w-full h-full min-h-dvh object-cover"
+          >
             <defs>
               <mask id="viMask">
                 <rect width="100%" height="100%" fill="black" />
@@ -103,7 +137,7 @@ export default function Home() {
       )}
 
       {showContent && (
-        <div className="relative min-h-screen bg-black text-white overflow-x-hidden">
+        <div className="relative min-h-screen bg-black text-white overflow-x-hidden w-full">
           <div className="fixed inset-0 z-0 pointer-events-none">
             <video
               ref={videoRef}
@@ -112,79 +146,78 @@ export default function Home() {
               loop
               playsInline
               preload="auto"
-              className="w-full h-full object-cover"
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              className="w-full h-full object-cover min-h-full min-w-full"
+              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
             >
-              <source src="/Images/cy.mp4" type="video/mp4" />
+              <source src="/Images/cy1.mp4" type="video/mp4" />
               Your browser does not support the video tag.
             </video>
+            <div className="absolute inset-0 bg-black/80 md:bg-black/60" aria-hidden />
           </div>
-
           <main className="relative z-10">
-            <header className="sm:px-10 sm:py-6 px-2 py-2 text-center flex justify-between items-center">
-              <div className="flex items-center gap-2 text-2xl font-bold font-rajdhani">
-                <FaShield /> XPLOIT
+            <header className="hero-header px-4 py-3 sm:px-6 sm:py-4 md:px-10 md:py-6 flex justify-between items-center pt-[max(0.75rem,env(safe-area-inset-top))]">
+              <div className="flex items-center gap-1.5 sm:gap-2 text-lg sm:text-xl md:text-2xl font-bold font-rajdhani">
+                <FaShield className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" /> 
+                <span className="truncate">XPLOIT</span>
               </div>
-              <nav className="flex sm:gap-16 gap-5 font-rajdhani font-semibold">
-                <span>EVENTS</span>
-                <span>ABOUT</span>
-                <span className="sm:block hidden">CONTACT</span>
+              <nav className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
+                <Link to="/Events" className="cursor-pointer hover:text-amber-400 transition-colors">EVENTS</Link>
+                <span className="cursor-pointer hover:text-amber-400 transition-colors">ABOUT</span>
+                <Link to="/contact" className="hidden sm:inline cursor-pointer hover:text-amber-400 transition-colors">CONTACT</Link>
               </nav>
             </header>
 
-            <section className="min-h-screen flex flex-col justify-center px-10 text-center">
-              <h1 className="text-5xl sm:text-7xl lg:text-8xl font-bold font-rajdhani">
-                <FuzzyText 
-                  fontSize="clamp(2.5rem, 8vw, 6rem)"
-                  fontWeight={700}
-                  fontFamily="Rajdhani, sans-serif"
-                  color="#fff"
-                  baseIntensity={0.2}
-                  hoverIntensity={0.5}
-                  enableHover={true}
-                  fuzzRange={30}
-                  className="mx-auto"
-                >
-                  LEARN – HACK
+            <section className="min-h-[calc(100vh-5rem)] flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 px-4 sm:px-6 md:px-10 lg:px-12 py-12 lg:py-0">
+              {/* Left: heading, paragraph, CTAs */}
+              <div className="flex-1 max-w-2xl lg:max-w-none text-left">
+                <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-rajdhani leading-tight">
+                  <span className="text-cyan-400 text-shadow-blue-600 text-shadow-lg">
+                    Hack the <span className="inline-block min-w-[8ch] sm:min-w-[9ch] align-baseline animate-fade-in-word text-lime-400" key={hackIndex}>{HACK_WORDS[hackIndex]}</span>
+                  </span>
                   <br />
-                  SECURE – DEFEND
-                </FuzzyText>
-              </h1>
-              <p className="mt-6 text-xl">
-                XPLOIT cybersecurity club of IIIT Bhopal
-              </p>
-
-              <div className="flex gap-6 justify-center mt-16">
-                <button className="border px-8 py-3 rounded-md">
-                  TEAM
-                </button>
-                <button className="bg-amber-400 text-black px-8 py-3 rounded-md">
-                  INITIATIVES
-                </button>
-              </div>
-            </section>
-
-            <section
-              ref={horizontalRef}
-              className="h-screen w-full overflow-hidden"
-            >
-              <div ref={trackRef} className="flex h-full w-max">
-                {["OPTIGO", "CYBER CTF", "BUG BOUNTY"].map((title, i) => (
-                  <div
-                    key={i}
-                    className="event-card w-screen h-full flex items-center justify-center"
+                  <span className="text-cyan-400 text-shadow-blue-600 text-shadow-lg">
+                    Secure the <span className="inline-block min-w-[8ch] sm:min-w-[9ch] align-baseline animate-fade-in-word text-amber-400" key={secureIndex}>{SECURE_WORDS[secureIndex]}</span>
+                  </span>
+                </h1>
+                <p className="hero-desc mt-5 sm:mt-6 text-base sm:text-lg text-white  text-left max-w-xl">
+                  XPLOIT is a student-led cybersecurity club exploring ethical hacking, CTFs, network security, and bug bounties. Learn by breaking, build by securing—join a community of builders, breakers, and defenders.
+                </p>
+                <div className="hero-ctas flex flex-wrap gap-4 mt-8 sm:mt-10">
+                  <button
+                    className="px-6 py-3 rounded-lg text-base font-semibold text-white bg-cyan-400 hover:bg-cyan-300 hover:scale-105 active:scale-100 transition-all duration-200 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
                   >
-                    <div className="w-[80%] h-[70%] rounded-3xl bg-linear-to-br from-[#0b0f14] to-[#111827] flex flex-col items-center justify-center">
-                      <h1 className="text-6xl text-cyan-400 font-bold">
-                        {title}
-                      </h1>
-                      
-                      <p className="mt-4 text-gray-400">
-                        INTER-IIIT EVENT
-                      </p>
-                    </div>
-                  </div>
-                ))}
+                    Join Club
+                  </button>
+                  <Link
+                    to="/Events"
+                    className="px-6 py-3 rounded-lg text-base font-semibold text-cyan-400 border-2 border-cyan-400 hover:bg-cyan-400/10 hover:scale-105 active:scale-100 transition-all duration-200"
+                  >
+                    Explore Events
+                  </Link>
+                </div>
+              </div>
+
+              {/* Right: LIVE CYBER FEED */}
+              <div className="hero-feed shrink-0 w-full lg:max-w-md">
+                <div className="flex items-center gap-2 mb-3">
+                  <span className="text-lg font-semibold text-lime-400 font-rajdhani tracking-wide">
+                    LIVE CYBER FEED
+                  </span>
+                  <FaHeartbeat className="w-5 h-5 text-lime-400 shrink-0" />
+                </div>
+                <div className="rounded-lg border border-gray-600/80 bg-black/60 backdrop-blur-sm p-4 min-h-[220px] max-h-[280px] overflow-y-auto font-mono text-sm">
+                  <div className="text-white/90">00, 443, 2000 ... open</div>
+                  <div className="text-gray-400 mt-1">&gt; CTF ::</div>
+                  <div className="text-lime-400 mt-0.5">flag&#123;knowledge_is_power&#125;</div>
+                  <div className="text-gray-400 mt-1">&gt; NET :: handshake</div>
+                  <div className="text-white/90 mt-0.5">established :: TLS 1.3</div>
+                  <div className="text-gray-400 mt-1">&gt; BUG :: bounty target</div>
+                  <div className="text-white/90 mt-0.5">queued ...</div>
+                </div>
+                <div className="flex items-center gap-2 mt-3 text-gray-300 text-sm">
+                  <span className="w-2 h-2 rounded-full bg-lime-400 shrink-0" />
+                  <span>Members online: 42</span>
+                </div>
               </div>
             </section>
           </main>
