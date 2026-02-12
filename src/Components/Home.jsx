@@ -162,13 +162,13 @@ export default function Home() {
               </div>
               <nav className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
                 <Link to="/Events" className="cursor-pointer hover:text-amber-400 transition-colors">EVENTS</Link>
-                <span className="cursor-pointer hover:text-amber-400 transition-colors">ABOUT</span>
+                <Link to="/about" className="cursor-pointer hover:text-amber-400 transition-colors">ABOUT</Link>
                 <Link to="/contact" className="hidden sm:inline cursor-pointer hover:text-amber-400 transition-colors">CONTACT</Link>
               </nav>
             </header>
 
             <section className="min-h-[calc(100vh-5rem)] flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 px-4 sm:px-6 md:px-10 lg:px-12 py-12 lg:py-0">
-              {/* Left: heading, paragraph, CTAs */}
+          
               <div className="flex-1 max-w-2xl lg:max-w-none text-left">
                 <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-rajdhani leading-tight">
                   <span className="text-cyan-400 text-shadow-blue-600 text-shadow-lg">
@@ -197,7 +197,6 @@ export default function Home() {
                 </div>
               </div>
 
-              {/* Right: LIVE CYBER FEED */}
               <div className="hero-feed shrink-0 w-full lg:max-w-md">
                 <div className="flex items-center gap-2 mb-3">
                   <span className="text-lg font-semibold text-lime-400 font-rajdhani tracking-wide">
@@ -205,7 +204,7 @@ export default function Home() {
                   </span>
                   <FaHeartbeat className="w-5 h-5 text-lime-400 shrink-0" />
                 </div>
-                <div className="rounded-lg border border-gray-600/80 bg-black/60 backdrop-blur-sm p-4 min-h-[220px] max-h-[280px] overflow-y-auto font-mono text-sm">
+                <div className="rounded-lg border border-gray-600/80 bg-black/60 backdrop-blur-sm p-4 min-h-55 max-h-70 overflow-y-auto font-mono text-sm">
                   <div className="text-white/90">00, 443, 2000 ... open</div>
                   <div className="text-gray-400 mt-1">&gt; CTF ::</div>
                   <div className="text-lime-400 mt-0.5">flag&#123;knowledge_is_power&#125;</div>

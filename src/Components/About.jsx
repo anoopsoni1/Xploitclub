@@ -6,10 +6,9 @@ import { Link } from "react-router-dom";
 import SplitText from "./Splittext";
 import { FaLongArrowAltRight, FaTimes } from "react-icons/fa";
 
-// Placeholder team data - replace with real data
 const CORE_TEAM = [
-  { name: "Core Lead 1", role: "Club Head", image: "https://i.pravatar.cc/300?img=1" },
-  { name: "Core Lead 2", role: "Technical Head", image: "https://i.pravatar.cc/300?img=2" },
+  { name: "Vedpal Singh", role: "Club Head", image: "./Images/vedpal.png" },
+  { name: "Hemant singh", role: "Technical Head", image: "./Images/hemant.jpeg" },
   { name: "Core Lead 3", role: "Events Head", image: "https://i.pravatar.cc/300?img=3" },
   { name: "Core Lead 4", role: "Outreach", image: "https://i.pravatar.cc/300?img=4" },
 ];
@@ -64,7 +63,6 @@ const About = () => {
 
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden w-full">
-      {/* Static background */}
       <div className="fixed inset-0 z-0 pointer-events-none bg-black" aria-hidden />
       <div
         className="fixed inset-0 z-0 pointer-events-none bg-linear-to-b from-transparent via-cyan-950/10 to-amber-950/15"
@@ -127,7 +125,6 @@ const About = () => {
           </div>
         </div>
 
-        {/* Team sections - Core Team & Other Team */}
         {showTeamSections && (
           <section
             ref={teamSectionsRef}
@@ -150,7 +147,6 @@ const About = () => {
                 </button>
               </div>
 
-              {/* Core Team */}
               <div className="mb-12 sm:mb-16 md:mb-20">
                 <h3 className="about-team-core-title text-xl sm:text-2xl md:text-3xl font-semibold font-rajdhani text-cyan-400 mb-4 sm:mb-6 flex items-center gap-2">
                   <span className="w-1.5 h-6 sm:h-7 bg-cyan-400 rounded-full" />
@@ -162,7 +158,7 @@ const About = () => {
                       key={i}
                       className="about-team-card-core group rounded-2xl border border-white/10 bg-white/6 backdrop-blur-md p-4 sm:p-5 hover:border-cyan-400/40 hover:bg-white/10 hover:shadow-[0_0_24px_rgba(34,211,238,0.12)] transition-all duration-300 hover:-translate-y-0.5"
                     >
-                      <div className="aspect-square w-full max-w-[140px] mx-auto sm:max-w-none rounded-xl overflow-hidden bg-white/10 mb-3 sm:mb-4 ring-2 ring-white/10 group-hover:ring-cyan-400/30 transition-all duration-300">
+                      <div className="aspect-square w-full max-w-35 mx-auto sm:max-w-none rounded-xl overflow-hidden bg-white/10 mb-3 sm:mb-4 ring-2 ring-white/10 group-hover:ring-cyan-400/30 transition-all duration-300">
                         <img
                           src={member.image}
                           alt={member.name}
@@ -176,7 +172,6 @@ const About = () => {
                 </div>
               </div>
 
-              {/* Other Team */}
               <div>
                 <h3 className="about-team-other-title text-xl sm:text-2xl md:text-3xl font-semibold font-rajdhani text-amber-400/90 mb-4 sm:mb-6 flex items-center gap-2">
                   <span className="w-1.5 h-6 sm:h-7 bg-amber-400/80 rounded-full" />
@@ -188,7 +183,7 @@ const About = () => {
                       key={i}
                       className="about-team-card-other group rounded-2xl border border-white/10 bg-white/6 backdrop-blur-md p-4 sm:p-5 hover:border-amber-400/40 hover:bg-white/10 hover:shadow-[0_0_24px_rgba(245,158,11,0.12)] transition-all duration-300 hover:-translate-y-0.5"
                     >
-                      <div className="aspect-square w-full max-w-[140px] mx-auto sm:max-w-none rounded-xl overflow-hidden bg-white/10 mb-3 sm:mb-4 ring-2 ring-white/10 group-hover:ring-amber-400/30 transition-all duration-300">
+                      <div className="aspect-square w-full max-w-35 mx-auto sm:max-w-none rounded-xl overflow-hidden bg-white/10 mb-3 sm:mb-4 ring-2 ring-white/10 group-hover:ring-amber-400/30 transition-all duration-300">
                         <img
                           src={member.image}
                           alt={member.name}
