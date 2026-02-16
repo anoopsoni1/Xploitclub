@@ -152,7 +152,7 @@ export default function Events() {
             <Link to="/about" className="cursor-pointer hover:text-amber-400 transition-colors duration-200">
               ABOUT
             </Link>
-            <Link to="/contact" className="hidden sm:inline cursor-pointer hover:text-amber-400 transition-colors duration-200">
+            <Link to="/contact" className="sm:inline cursor-pointer hover:text-amber-400 transition-colors duration-200">
               CONTACT
             </Link>
           </nav>

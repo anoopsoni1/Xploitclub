@@ -163,7 +163,7 @@ export default function Home() {
               <nav className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
                 <Link to="/Events" className="cursor-pointer hover:text-amber-400 transition-colors">EVENTS</Link>
                 <Link to="/about" className="cursor-pointer hover:text-amber-400 transition-colors">ABOUT</Link>
-                <Link to="/contact" className="hidden sm:inline cursor-pointer hover:text-amber-400 transition-colors">CONTACT</Link>
+                <Link to="/contact" className="sm:inline cursor-pointer hover:text-amber-400 transition-colors">CONTACT</Link>
               </nav>
             </header>
 

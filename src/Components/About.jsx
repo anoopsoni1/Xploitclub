@@ -1,14 +1,27 @@
 import React, { useRef, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { FaShield } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import SplitText from "./Splittext";
 import { FaLongArrowAltRight, FaTimes } from "react-icons/fa";
+import { LogoLoop } from "./Slider";
+
+gsap.registerPlugin(ScrollTrigger);
+
+const SPONSOR_LOGO_ITEMS = [
+  { src: "https://logo.clearbit.com/google.com", alt: "Sponsor", href: "#" },
+  { src: "https://logo.clearbit.com/github.com", alt: "Sponsor", href: "#" },
+  { src: "https://logo.clearbit.com/microsoft.com", alt: "Sponsor", href: "#" },
+  { src: "https://logo.clearbit.com/aws.amazon.com", alt: "Sponsor", href: "#" },
+  { src: "https://logo.clearbit.com/cloudflare.com", alt: "Sponsor", href: "#" },
+  { src: "https://logo.clearbit.com/ibm.com", alt: "Sponsor", href: "#" },
+];
 
 const CORE_TEAM = [
-  { name: "Vedpal Singh", role: "Club Head", image: "./Images/vedpal.png" },
-  { name: "Hemant singh", role: "Technical Head", image: "./Images/hemant.jpeg" },
+  { name: "Vedpal Singh", role: "Club Head", image: "./Images/vedpal.pg" },
+  { name: "Hemant singh", role: "Technical Head", image: "./Images/hemant.jpg" },
   { name: "Core Lead 3", role: "Events Head", image: "https://i.pravatar.cc/300?img=3" },
   { name: "Core Lead 4", role: "Outreach", image: "https://i.pravatar.cc/300?img=4" },
 ];
@@ -24,6 +37,7 @@ const About = () => {
   const teamSectionsRef = useRef(null);
   const headerRef = useRef(null);
   const heroRef = useRef(null);
+  const sponsorsRef = useRef(null);
   const [showTeamSections, setShowTeamSections] = useState(false);
 
   const scrollToTeam = () => {
@@ -61,6 +75,27 @@ const About = () => {
     { dependencies: [showTeamSections] }
   );
 
+  useGSAP(() => {
+    const section = sponsorsRef.current;
+    if (!section) return;
+    const title = section.querySelector(".about-sponsors-title");
+    const line = section.querySelector(".about-sponsors-line");
+    const loopWrap = section.querySelector(".about-sponsors-logoloop-wrap");
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: section,
+        start: "top 80%",
+        end: "top 30%",
+        toggleActions: "play none none none",
+      },
+      defaults: { ease: "power3.out" },
+    });
+    tl.fromTo(section, { opacity: 0 }, { opacity: 1, duration: 0.3 })
+      .fromTo(title, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.2")
+      .fromTo(line, { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: "power2.inOut" }, "-=0.35")
+      .fromTo(loopWrap, { y: 32, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, ease: "power2.out" }, "-=0.25");
+  }, []);
+
   return (
     <div className="relative min-h-screen bg-black text-white overflow-x-hidden w-full">
       <div className="fixed inset-0 z-0 pointer-events-none bg-black" aria-hidden />
@@ -86,7 +121,7 @@ const About = () => {
               EVENTS
             </Link>
             <span className="text-amber-400">ABOUT</span>
-            <Link to="/contact" className="hidden sm:inline cursor-pointer hover:text-amber-400 transition-colors duration-200">
+            <Link to="/contact" className="sm:inline cursor-pointer hover:text-amber-400 transition-colors duration-200">
               CONTACT
             </Link>
           </nav>
@@ -171,7 +206,6 @@ const About = () => {
                   ))}
                 </div>
               </div>
-
               <div>
                 <h3 className="about-team-other-title text-xl sm:text-2xl md:text-3xl font-semibold font-rajdhani text-amber-400/90 mb-4 sm:mb-6 flex items-center gap-2">
                   <span className="w-1.5 h-6 sm:h-7 bg-amber-400/80 rounded-full" />
@@ -199,6 +233,42 @@ const About = () => {
             </div>
           </section>
         )}
+        {/* Sponsors section */}
+        <section
+          ref={sponsorsRef}
+          className="about-sponsors-section relative z-10 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-20 sm:pb-24 md:pb-28 lg:pb-32 px-4 sm:px-6 md:px-8 lg:px-10 border-t border-white/10 overflow-hidden"
+        >
+          <div className="absolute inset-0 pointer-events-none aria-hidden">
+            <div className="absolute top-1/4 left-0 w-72 h-72 bg-cyan-500/5 rounded-full blur-3xl -translate-x-1/2" />
+            <div className="absolute bottom-1/4 right-0 w-96 h-96  rounded-full blur-3xl translate-x-1/2" />
+          </div>
+          <div className="mx-auto relative">
+            <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-14">
+              <h2 className="about-sponsors-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-rajdhani text-white">
+                Our <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 to-cyan-400">Sponsors</span>
+              </h2>
+              <div className="about-sponsors-line mt-2 sm:mt-3 h-1 w-20 sm:w-24 md:w-28 bg-linear-to-r from-amber-400 to-cyan-400 rounded-full origin-center mx-auto" />
+              <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-gray-400 max-w-xl mx-auto">
+                Powered by industry leaders who believe in the future of cybersecurity.
+              </p>
+            </div>
+            <div className="about-sponsors-logoloop-wrap min-h-[120px] sm:min-h-[140px] md:min-h-[160px]">
+              <LogoLoop
+                logos={SPONSOR_LOGO_ITEMS}
+                speed={80}
+                direction="left"
+                logoHeight={48}
+                gap={48}
+                pauseOnHover={false}
+                fadeOut
+                fadeOutColor="#000000"
+                scaleOnHover
+                ariaLabel="Our sponsors"
+                className="py-2 w-full "
+              />
+            </div>
+          </div>
+        </section>
       </main>
     </div>
   );
