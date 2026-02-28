@@ -155,6 +155,26 @@ export default function Events() {
     if (currentSlide > maxSlideIndex) setCurrentSlide(maxSlideIndex);
   }, [currentSlide, maxSlideIndex]);
 
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key === "ArrowLeft") goToSlide(currentSlide - 1);
+      if (e.key === "ArrowRight") goToSlide(currentSlide + 1);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [currentSlide, goToSlide]);
+
+  const [autoplayPaused, setAutoplayPaused] = useState(false);
+  const AUTOPLAY_DELAY = 4500;
+
+  useEffect(() => {
+    if (autoplayPaused) return;
+    const id = setInterval(() => {
+      setCurrentSlide((prev) => (prev >= maxSlideIndex ? 0 : prev + 1));
+    }, AUTOPLAY_DELAY);
+    return () => clearInterval(id);
+  }, [autoplayPaused, maxSlideIndex]);
+
   useGSAP(() => {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tl.fromTo(headerRef.current, { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 })
@@ -203,26 +223,25 @@ export default function Events() {
 
   useGSAP(
     () => {
-      const cards = cardsRef.current?.querySelectorAll(".event-card");
-      if (!cards?.length) return;
-      const cardImages = cardsRef.current?.querySelectorAll(".event-card-img");
+      const wrap = sliderWrapRef.current;
+      const track = sliderTrackRef.current;
+      if (!wrap || !track) return;
       gsap.fromTo(
-        cards,
-        { opacity: 0, y: 56, rotateX: -8 },
+        wrap,
+        { opacity: 0, y: 40 },
         {
           opacity: 1,
           y: 0,
-          rotateX: 0,
-          duration: 0.65,
-          stagger: 0.1,
-          ease: "back.out(1.05)",
+          duration: 0.7,
+          ease: "power3.out",
           scrollTrigger: {
-            trigger: cardsRef.current,
-            start: "top 82%",
+            trigger: wrap,
+            start: "top 88%",
             toggleActions: "play none none none",
           },
         }
       );
+      const cardImages = track.querySelectorAll(".event-card-img");
       cardImages?.forEach((img) => {
         img.addEventListener("mouseenter", () => {
           gsap.to(img, { scale: 1.08, duration: 0.4, ease: "power2.out" });
@@ -344,7 +363,7 @@ export default function Events() {
                 >
                   <FaChevronLeft className="w-4 h-4" />
                 </button>
-                <span className="text-sm font-rajdhani text-gray-400 min-w-[4rem] text-center">
+                <span className="text-sm font-rajdhani text-gray-400 min-w-16 text-center">
                   {currentSlide + 1} / {maxSlideIndex + 1}
                 </span>
                 <button
@@ -362,6 +381,8 @@ export default function Events() {
             <div
               ref={sliderWrapRef}
               className="event-slider-wrap relative overflow-hidden w-full"
+              onMouseEnter={() => setAutoplayPaused(true)}
+              onMouseLeave={() => setAutoplayPaused(false)}
             >
               <div
                 ref={sliderTrackRef}
@@ -374,10 +395,10 @@ export default function Events() {
                 {EVENTS_DATA.map((event) => (
                   <article
                     key={event.id}
-                    className="event-slide-card event-card flex-none rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] group h-full"
+                    className={`event-slide-card event-card flex-none rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] group h-full ${accentBorder[event.accent]}`}
                     style={{ width: slideWidth || "100%" }}
                   >
-                    <Link to="#" className="block h-full flex flex-col">
+                    <Link to="#" className="flex h-full flex-col">
                       <div className="relative aspect-video overflow-hidden bg-white/10">
                         <img
                           src={event.image}
@@ -397,7 +418,7 @@ export default function Events() {
                         </div>
                       </div>
                       <div className="p-4 sm:p-5 md:p-6 flex-1 flex flex-col">
-                        <h3 className={`font-semibold text-white text-lg sm:text-xl font-rajdhani line-clamp-2 group-hover:text-cyan-400/90 transition-colors duration-200 ${accentBorder[event.accent]}`}>
+                        <h3 className="font-semibold text-white text-lg sm:text-xl font-rajdhani line-clamp-2 group-hover:text-cyan-400/90 transition-colors duration-200">
                           {event.title}
                         </h3>
                         <div className="mt-3 flex flex-wrap gap-x-4 gap-y-1 text-sm text-gray-400">
