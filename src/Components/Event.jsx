@@ -5,6 +5,7 @@ import { useGSAP } from "@gsap/react";
 import { Link } from "react-router-dom";
 import { FaShield } from "react-icons/fa6";
 import { FaCalendarAlt, FaMapMarkerAlt, FaArrowRight, FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import ThreeBackground from "./ThreeBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -69,12 +70,42 @@ const EVENTS_DATA = [
     image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&h=400&fit=crop",
     accent: "lime",
   },
+  {
+    id: 7,
+    title: "UDBHAV",
+    tag: "Hackathon",
+    date: "Oct 15, 2025",
+    venue: "IIIT Bhopal",
+    desc: "India's first ever Inter IIIT Hackathon. XPLOIT presents IIIT Bhopal Internal Round.",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=600&h=400&fit=crop",
+    accent: "cyan",
+  },
+  {
+    id: 8,
+    title: "ROOTRUSH",
+    tag: "Event",
+    date: "TBA",
+    venue: "IIIT Bhopal",
+    desc: "In collaboration with Sugam Informatics Society & NM. A high-energy tech and cybersecurity showdown.",
+    image: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop",
+    accent: "amber",
+  },
+  {
+    id: 9,
+    title: "BGMI Battlegrounds Mobile India Tournament",
+    tag: "Esports",
+    date: "TBA",
+    venue: "Online / Campus",
+    desc: "Presented by ALGOS. The ultimate battleground showdown. Goodies up to ₹2000 for winners.",
+    image: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=600&h=400&fit=crop",
+    accent: "lime",
+  },
 ];
 
 const accentBorder = {
-  cyan: "hover:border-cyan-400/50 hover:shadow-[0_0_28px_rgba(34,211,238,0.15)]",
-  amber: "hover:border-amber-400/50 hover:shadow-[0_0_28px_rgba(245,158,11,0.15)]",
-  lime: "hover:border-lime-400/50 hover:shadow-[0_0_28px_rgba(132,204,22,0.15)]",
+  cyan: "hover:border-cyan-400/50 hover:shadow-[0_0_32px_rgba(34,211,238,0.2)]",
+  amber: "hover:border-amber-400/50 hover:shadow-[0_0_32px_rgba(245,158,11,0.2)]",
+  lime: "hover:border-lime-400/50 hover:shadow-[0_0_32px_rgba(132,204,22,0.2)]",
 };
 const accentTag = {
   cyan: "bg-cyan-400/20 text-cyan-400 border-cyan-400/40",
@@ -179,9 +210,11 @@ export default function Events() {
     const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
     tl.fromTo(headerRef.current, { y: -24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 })
       .fromTo(heroRef.current, { y: 48, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, "-=0.3")
-      .fromTo(".event-hero-line", { scaleX: 0 }, { scaleX: 1, duration: 0.6, ease: "power2.inOut" }, "-=0.5")
+      .fromTo(".event-hero-line-amber", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, "-=0.5")
+      .fromTo(".event-hero-line-cyan", { scaleX: 0 }, { scaleX: 1, duration: 0.55, ease: "power2.out" }, "-=0.35")
       .fromTo(".event-hero-desc", { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.5 }, "-=0.35")
-      .fromTo(".event-hero-badge", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.4, ease: "back.out(1.4)" }, "-=0.3");
+      .fromTo(".event-hero-badge", { scale: 0.8, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.45, ease: "back.out(1.4)" }, "-=0.3")
+      .fromTo(".event-hero-scroll-hint", { opacity: 0, y: 10 }, { opacity: 0.7, y: 0, duration: 0.5, delay: 0.3 }, "-=0.2");
   }, []);
 
   useGSAP(() => {
@@ -201,22 +234,18 @@ export default function Events() {
   useGSAP(
     () => {
       const titleEl = sectionTitleRef.current;
+      const bar = document.querySelector(".event-section-bar");
       if (!titleEl) return;
-      gsap.fromTo(
-        titleEl,
-        { x: -24, opacity: 0 },
-        {
-          x: 0,
-          opacity: 1,
-          duration: 0.6,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: titleEl,
-            start: "top 88%",
-            toggleActions: "play none none none",
-          },
-        }
-      );
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: titleEl,
+          start: "top 88%",
+          toggleActions: "play none none none",
+        },
+        defaults: { ease: "power3.out" },
+      });
+      tl.fromTo(titleEl, { x: -24, opacity: 0 }, { x: 0, opacity: 1, duration: 0.6 })
+        .fromTo(bar, { scaleY: 0, opacity: 0 }, { scaleY: 1, opacity: 1, duration: 0.35, transformOrigin: "bottom" }, "-=0.4");
     },
     []
   );
@@ -276,6 +305,49 @@ export default function Events() {
     []
   );
 
+  useGSAP(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    ScrollTrigger.create({
+      trigger: hero,
+      start: "top top",
+      end: "bottom top",
+      scrub: 0.5,
+      onUpdate: (self) => {
+        const y = self.progress * 80;
+        gsap.set(hero, { y: Math.min(y, 60) });
+      },
+    });
+  }, []);
+
+  const navRef = useRef(null);
+  useGSAP(() => {
+    const links = navRef.current?.querySelectorAll("a");
+    if (!links?.length) return;
+    links.forEach((link, i) => {
+      link.addEventListener("mouseenter", () => {
+        gsap.to(link, { scale: 1.08, duration: 0.2, ease: "power2.out" });
+      });
+      link.addEventListener("mouseleave", () => {
+        gsap.to(link, { scale: 1, duration: 0.25, ease: "power2.out" });
+      });
+    });
+  }, []);
+
+  const sliderBtnsRef = useRef(null);
+  useGSAP(() => {
+    const btns = sliderBtnsRef.current?.querySelectorAll("button");
+    if (!btns?.length) return;
+    btns.forEach((btn) => {
+      btn.addEventListener("mouseenter", () => {
+        gsap.to(btn, { scale: 1.1, boxShadow: "0 0 20px rgba(34,211,238,0.3)", duration: 0.25 });
+      });
+      btn.addEventListener("mouseleave", () => {
+        gsap.to(btn, { scale: 1, boxShadow: "none", duration: 0.25 });
+      });
+    });
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white overflow-x-hidden">
       {/* Background */}
@@ -297,6 +369,7 @@ export default function Events() {
         <div className="absolute top-[60%] right-[5%] w-72 h-72 sm:w-96 sm:h-96 rounded-full bg-amber-500/10 blur-3xl" />
         <div className="absolute bottom-[20%] left-[20%] w-48 h-48 sm:w-64 sm:h-64 rounded-full bg-cyan-400/5 blur-3xl" />
       </div>
+      <ThreeBackground className="z-0" opacity={1} />
 
       <main className="relative z-10">
         <header
@@ -310,7 +383,7 @@ export default function Events() {
             <FaShield className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" />
             <span className="truncate">XPLOIT</span>
           </Link>
-          <nav className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
+          <nav ref={navRef} className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
             <span className="text-amber-400">EVENTS</span>
             <Link to="/about" className="cursor-pointer hover:text-amber-400 transition-colors duration-200">
               ABOUT
@@ -322,22 +395,36 @@ export default function Events() {
         </header>
 
         {/* Hero */}
-        <section className="px-4 sm:px-6 md:px-8 lg:px-10 pt-12 sm:pt-16 md:pt-24 pb-14 sm:pb-20 md:pb-24">
-          <div ref={heroRef} className="max-w-4xl">
+        <section className="relative px-4 sm:px-6 md:px-8 lg:px-10 pt-12 sm:pt-16 md:pt-24 pb-14 sm:pb-20 md:pb-24 overflow-hidden">
+          <div className="absolute inset-0 pointer-events-none flex items-center justify-start" aria-hidden>
+            <div className="w-[min(80vw,500px)] h-[min(50vw,350px)] rounded-full bg-cyan-500/12 blur-[90px] -translate-x-1/4" />
+            <div className="absolute w-[min(60vw,320px)] h-[min(40vw,240px)] rounded-full bg-amber-500/10 blur-[70px] translate-x-20 -translate-y-4" />
+          </div>
+          <div ref={heroRef} className="max-w-4xl relative z-10">
             <p className="text-cyan-400/90 text-sm sm:text-base font-semibold tracking-wide uppercase mb-2">
               What we do
             </p>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-rajdhani leading-tight text-white">
-              Our <span className="text-cyan-400">Events</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold font-rajdhani leading-tight text-white tracking-tight drop-shadow-[0_0_24px_rgba(34,211,238,0.12)]">
+              Our{" "}
+              <span className="text-transparent bg-clip-text bg-linear-to-r from-cyan-400 via-cyan-300 to-amber-400">
+                Events
+              </span>
             </h1>
-            <div className="event-hero-line mt-3 sm:mt-4 h-1 w-20 sm:w-24 bg-linear-to-r from-cyan-400 to-amber-400 rounded-full origin-left" />
+            <div className="mt-3 sm:mt-4 flex gap-1.5">
+              <div className="event-hero-line-amber h-1 w-10 sm:w-12 bg-amber-400 rounded-full origin-left" />
+              <div className="event-hero-line-cyan h-1 w-14 sm:w-20 bg-cyan-400 rounded-full origin-left" />
+            </div>
             <p className="event-hero-desc mt-4 sm:mt-5 text-base sm:text-lg md:text-xl text-gray-400 max-w-2xl leading-relaxed">
               CTFs, workshops, and tech sessions to level up your security skills. Join us at IIIT Bhopal.
             </p>
-            <div className="mt-6 flex items-center gap-3">
-              <span className="event-hero-badge inline-flex items-center gap-1.5 rounded-full border border-cyan-400/30 bg-cyan-400/10 px-3 py-1.5 text-sm font-medium text-cyan-400">
+            <div className="mt-6 flex flex-col gap-5">
+              <span className="event-hero-badge inline-flex items-center gap-1.5 rounded-full border border-cyan-400/40 bg-cyan-400/15 px-4 py-2 text-sm font-semibold text-cyan-400 shadow-[0_0_20px_rgba(34,211,238,0.2)] hover:shadow-[0_0_28px_rgba(34,211,238,0.3)] hover:border-cyan-400/60 transition-all duration-300 w-fit">
                 {EVENTS_DATA.length} upcoming
               </span>
+              <p className="event-hero-scroll-hint text-xs sm:text-sm text-gray-500 flex items-center gap-1.5">
+                <span>Scroll to explore</span>
+                <span className="inline-block animate-bounce">↓</span>
+              </p>
             </div>
           </div>
         </section>
@@ -348,12 +435,12 @@ export default function Events() {
             <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 px-4 sm:px-0 mb-6 sm:mb-8">
               <h2
                 ref={sectionTitleRef}
-                className="text-xl sm:text-2xl md:text-3xl font-semibold font-rajdhani text-white/90 flex items-center gap-2"
+                className="text-xl sm:text-2xl md:text-3xl font-semibold font-rajdhani text-white flex items-center gap-2 tracking-tight drop-shadow-[0_0_10px_rgba(34,211,238,0.25)]"
               >
-                <span className="w-1.5 h-6 sm:h-7 bg-cyan-400 rounded-full" />
+                <span className="event-section-bar w-1.5 h-6 sm:h-7 bg-cyan-400 rounded-full shadow-[0_0_12px_rgba(34,211,238,0.6)]" />
                 Upcoming events
               </h2>
-              <div className="flex items-center gap-2">
+              <div ref={sliderBtnsRef} className="flex items-center gap-2">
                 <button
                   type="button"
                   onClick={() => goToSlide(currentSlide - 1)}
@@ -395,10 +482,13 @@ export default function Events() {
                 {EVENTS_DATA.map((event) => (
                   <article
                     key={event.id}
-                    className={`event-slide-card event-card flex-none rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-300 hover:-translate-y-2 hover:scale-[1.02] group h-full ${accentBorder[event.accent]}`}
+                    className={`event-slide-card event-card flex-none rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md overflow-hidden transition-all duration-300 hover:-translate-y-2.5 hover:scale-[1.02] group h-full ${accentBorder[event.accent]}`}
                     style={{ width: slideWidth || "100%" }}
                   >
-                    <Link to="#" className="flex h-full flex-col">
+                    <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden rounded-2xl" aria-hidden>
+                      <div className="absolute inset-0 w-1/2 -translate-x-full group-hover:translate-x-[200%] transition-transform duration-700 ease-out bg-linear-to-r from-transparent via-white/10 to-transparent" />
+                    </div>
+                    <Link to="#" className="flex h-full flex-col relative">
                       <div className="relative aspect-video overflow-hidden bg-white/10">
                         <img
                           src={event.image}
@@ -453,7 +543,9 @@ export default function Events() {
                   onClick={() => goToSlide(i)}
                   aria-label={`Go to slide ${i + 1}`}
                   className={`h-2 rounded-full transition-all duration-300 ${
-                    i === currentSlide ? "w-6 bg-cyan-400" : "w-2 bg-white/30 hover:bg-white/50"
+                    i === currentSlide
+                      ? "w-6 bg-cyan-400 shadow-[0_0_12px_rgba(34,211,238,0.6)]"
+                      : "w-2 bg-white/30 hover:bg-white/50"
                   }`}
                 />
               ))}
@@ -462,12 +554,15 @@ export default function Events() {
 
           {/* CTA */}
           <div ref={ctaRef} className="max-w-6xl mx-auto mt-16 sm:mt-20 md:mt-24 text-center">
-            <p className="text-gray-500 text-sm sm:text-base">
-              Want to host or suggest an event?{" "}
-              <Link to="/about" className="text-cyan-400 hover:text-cyan-300 font-medium transition-colors duration-200">
-                Get in touch
-              </Link>
+            <p className="text-gray-500 text-sm sm:text-base mb-3">
+              Want to host or suggest an event?
             </p>
+            <Link
+              to="/about"
+              className="inline-flex items-center gap-2 rounded-full border border-cyan-400/40 bg-cyan-400/10 px-5 py-2.5 text-sm font-semibold text-cyan-400 hover:bg-cyan-400/20 hover:border-cyan-400/60 hover:shadow-[0_0_24px_rgba(34,211,238,0.2)] transition-all duration-300"
+            >
+              Get in touch
+            </Link>
           </div>
         </section>
       </main>
