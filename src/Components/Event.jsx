@@ -349,11 +349,11 @@ export default function Events() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
+    <div className="min-h-screen bg-neutral-950 text-white overflow-x-hidden">
       {/* Background */}
-      <div className="fixed inset-0 z-0 pointer-events-none bg-black" aria-hidden />
+      <div className="fixed inset-0 z-0 pointer-events-none bg-neutral-950" aria-hidden />
       <div
-        className="fixed inset-0 z-0 pointer-events-none bg-linear-to-b from-transparent via-cyan-950/10 to-cyan-950/25"
+        className="fixed inset-0 z-0 pointer-events-none bg-linear-to-b from-transparent via-cyan-950/20 to-cyan-950/40"
         aria-hidden
       />
       <div

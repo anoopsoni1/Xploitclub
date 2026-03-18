@@ -11,53 +11,114 @@ import ThreeBackground from "./ThreeBackground";
 
 gsap.registerPlugin(ScrollTrigger);
 
+/** Team photos from Drive download folder (filename includes member name) */
+const TEAM_PHOTO_DIR = "/Images/drive-download-20260318T080635Z-3-001";
+const teamPhoto = (filename) => `${TEAM_PHOTO_DIR}/${encodeURIComponent(filename)}`;
+const PLACEHOLDER = "https://i.pravatar.cc/300?img=";
+
 const SPONSOR_LOGO_ITEMS = [
-  { src: "/Images/sponsors/barbeque-nation.png", alt: "Barbeque Nation", href: "https://www.barbequenation.com/" },
-  { src: "/Images/sponsors/altered-security.png", alt: "Altered Security", href: "https://www.alteredsecurity.com/" },
-  { src: "/Images/sponsors/ndmsk.png", alt: "NDMSK Technology Pvt. Ltd", href: "#" },
-  { src: "/Images/sponsors/sugam-informatics.png", alt: "Sugam Informatics Society", href: "#" },
-  { src: "/Images/sponsors/campustales.png", alt: "CampusTales", href: "#" },
-  { src: "/Images/sponsors/dopamine-store.png", alt: "The Dopamine Store", href: "#" },
-  { src: "/Images/sponsors/isea.png", alt: "iSEA Phase III", href: "#" },
-  { src: "/Images/sponsors/manit-cse.png", alt: "MANIT CSE Department", href: "https://www.manit.ac.in/" },
+  {
+    src: "/Images/sponsors/xploit_sponsors/barbeque-nation.png",
+    alt: "Barbeque Nation",
+    href: "https://www.barbequenation.com/",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/40f0503a-b19f-47fb-8646-d969f46d3095.png",
+    alt: "Altered Security",
+    href: "https://www.alteredsecurity.com/",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/Screenshot%202026-03-02%20010955.png",
+    alt: "NDMSK Technology Pvt. Ltd",
+    href: "#",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/Screenshot%202026-03-02%20011013.png",
+    alt: "Sugam Informatics Society",
+    href: "#",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/Screenshot%202026-03-02%20011107.png",
+    alt: "CampusTales",
+    href: "#",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/Screenshot%202026-03-02%20011122.png",
+    alt: "The Dopamine Store",
+    href: "#",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/f53b0251-ca6a-494e-bcd1-27e1d569d4ed.png",
+    alt: "iSEA Phase III",
+    href: "#",
+  },
+  {
+    src: "/Images/sponsors/xploit_sponsors/3933443c-38cb-438a-abad-f4d5f6201e06.png",
+    alt: "MANIT CSE Department",
+    href: "https://www.manit.ac.in/",
+  },
 ];
 
 const CORE_TEAM = [
-  { name: "Darsh Dave", role: "Coordinator", image: "https://i.pravatar.cc/300?img=11" },
-  { name: "Bhushan Wayal", role: "Co-Coordinator", image: "https://i.pravatar.cc/300?img=12" },
-  { name: "Saurav Sagar", role: "Co-Coordinator", image: "https://i.pravatar.cc/300?img=13" },
+  { name: "Darsh Dave", role: "Coordinator", image: teamPhoto("IMG_1417 - DARSH DAVE.jpeg") },
+  { name: "Bhushan Wayal", role: "Co-Coordinator", image: `${PLACEHOLDER}12` },
+  { name: "Saurav Sagar", role: "Co-Coordinator", image: `${PLACEHOLDER}13` },
 ];
 const OTHER_TEAM = [
-  { name: "Rohit Kumar Dhaka", role: "Event Lead", image: "https://i.pravatar.cc/300?img=14" },
-  { name: "Shashank", role: "PR & Outreach Lead", image: "https://i.pravatar.cc/300?img=15" },
-  { name: "Aayush Sharma", role: "Social Media Lead", image: "https://i.pravatar.cc/300?img=16" },
-  { name: "Shreyash Jadhav", role: "Design Lead", image: "https://i.pravatar.cc/300?img=17" },
-  { name: "Abhay Jadon", role: "Web Development Lead", image: "https://i.pravatar.cc/300?img=18" },
-  { name: "Kapil Meena", role: "Web Security Lead", image: "https://i.pravatar.cc/300?img=19" },
-  { name: "Jasvant Singh Dhaked", role: "Bug Bounty Lead", image: "https://i.pravatar.cc/300?img=20" },
-  { name: "Anirudha Ingle", role: "Esports & Gaming Lead", image: "https://i.pravatar.cc/300?img=21" },
-  { name: "Prakhar Dwivedi", role: "Offensive Security Lead", image: "https://i.pravatar.cc/300?img=22" },
-  { name: "Chirag Prasad", role: "Flagmaster", image: "https://i.pravatar.cc/300?img=23" },
+  { name: "Rohit Kumar Dhaka", role: "Event Lead", image: `${PLACEHOLDER}14` },
+  { name: "Shashank", role: "PR & Outreach Lead", image: teamPhoto("IMG-20260226-WA0019 - Shashank.jpg") },
+  { name: "Aayush Sharma", role: "Social Media Lead", image: teamPhoto("IMG_20251028_115206 - Aayush Sharma.jpg") },
+  { name: "Shreyash Jadhav", role: "Design Lead", image: `${PLACEHOLDER}17` },
+  { name: "Abhay Jadon", role: "Web Development Lead", image: `${PLACEHOLDER}18` },
+  { name: "Kapil Meena", role: "Web Security Lead", image: `${PLACEHOLDER}19` },
+  { name: "Jasvant Singh Dhaked", role: "Bug Bounty Lead", image: `${PLACEHOLDER}20` },
+  { name: "Anirudha Ingle", role: "Esports & Gaming Lead", image: `${PLACEHOLDER}21` },
+  {
+    name: "Prakhar Dwivedi",
+    role: "Offensive Security Lead",
+    image: `${PLACEHOLDER}22`,
+  },
+  {
+    name: "Chirag Prasad",
+    role: "Flagmaster",
+    image: teamPhoto("WhatsApp Image 2026-03-03 at 6.11.44 PM - Chirag Prasad.jpeg"),
+  },
 ];
 
 const ASSISTANT_TEAM = [
-  { name: "Rhit Shukla", role: "Assist. Offensive Security Lead", image: "https://i.pravatar.cc/300?img=24" },
-  { name: "Aryan Singh", role: "Assist. Offensive Security Lead", image: "https://i.pravatar.cc/300?img=25" },
-  { name: "Vala Kautak", role: "Assist. Bug Bounty Lead", image: "https://i.pravatar.cc/300?img=26" },
-  { name: "Karan Misra", role: "Assistant Web Security Lead", image: "https://i.pravatar.cc/300?img=27" },
-  { name: "Hirdesh Kumar", role: "Assistant Design Lead", image: "https://i.pravatar.cc/300?img=28" },
-  { name: "Ashish Jangra", role: "Assistant Design Lead", image: "https://i.pravatar.cc/300?img=29" },
-  { name: "Asbaa Thakur", role: "Assist. Defensive Security Lead", image: "https://i.pravatar.cc/300?img=30" },
-  { name: "Vishvas Patil", role: "Assist. Flag Master", image: "https://i.pravatar.cc/300?img=31" },
-  { name: "Anoop Soni", role: "Assist. Web Development Lead", image: "https://i.pravatar.cc/300?img=32" },
-  { name: "Abhishek Yadav", role: "Assist. Event Lead", image: "https://i.pravatar.cc/300?img=33" },
-  { name: "Nikilesh Dasaratha", role: "Assist. Event Lead", image: "https://i.pravatar.cc/300?img=34" },
-  { name: "Dhruv Nihate", role: "Assist. Social Media Lead", image: "https://i.pravatar.cc/300?img=35" },
-  { name: "Sneha Verma", role: "Assist. Social Media Lead", image: "https://i.pravatar.cc/300?img=36" },
-  { name: "Pranav Polawar", role: "Assist. PR & Outreach Lead", image: "https://i.pravatar.cc/300?img=37" },
-  { name: "Ayush Kumar", role: "Assist. PR & Outreach Lead", image: "https://i.pravatar.cc/300?img=38" },
-  { name: "Abhinay Choudhary", role: "Assist. Gaming & Esports Lead", image: "https://i.pravatar.cc/300?img=39" },
-  { name: "Lakshay Chahar", role: "Assist. Gaming & Esports Lead", image: "https://i.pravatar.cc/300?img=40" },
+  { name: "Rhit Shukla", role: "Assist. Offensive Security Lead", image: teamPhoto("WhatsApp Image 2026-02-12 at 21.48.45.jpeg") },
+  { name: "Aryan Singh", role: "Assist. Offensive Security Lead", image: `${PLACEHOLDER}25` },
+  { name: "Vala Kautak", role: "Assist. Bug Bounty Lead", image: `${PLACEHOLDER}26` },
+  { name: "Karan Misra", role: "Assistant Web Security Lead", image: teamPhoto("me_xploit - Karan Mishra.jpg") },
+  { name: "Hirdesh Kumar", role: "Assistant Design Lead", image: teamPhoto("IMG_20251101_171409 - Hirdesh Kumar.jpg") },
+  {
+    name: "Ashish Jangra",
+    role: "Assistant Design Lead",
+    image: teamPhoto("IMG-20260228-WA0270(1) - Ashish Jangra.jpg"),
+  },
+  { name: "Asbaa Thakur", role: "Assist. Defensive Security Lead", image: teamPhoto("GDSC_FORMAL_SQUARE - Asbaa Thakur.jpg") },
+  {
+    name: "Vishvas Patil",
+    role: "Assist. Flag Master",
+    image: teamPhoto("Picsart_26-02-28_19-35-41-722 - Vishvas Patil.jpg"),
+  },
+  { name: "Anoop Soni", role: "Assist. Web Development Lead", image: `${PLACEHOLDER}32` },
+  { name: "Abhishek Yadav", role: "Assist. Event Lead", image: teamPhoto("IMG_20250419_215922 - ABHISHEK YADAV.jpg") },
+  {
+    name: "Nikilesh Dasaratha",
+    role: "Assist. Event Lead",
+    image: teamPhoto("IMG-20251109-WA0038 - Nikilesh Dasaratha.jpg"),
+  },
+  { name: "Dhruv Nihate", role: "Assist. Social Media Lead", image: teamPhoto("IMG_20260104_111353 - _ PREDATOR.jpg") },
+  { name: "Sneha Verma", role: "Assist. Social Media Lead", image: teamPhoto("photo - Sneha Verma.jpg") },
+  { name: "Pranav Polawar", role: "Assist. PR & Outreach Lead", image: teamPhoto("IMG_20260304_212729 - Pranav Polawar.jpg") },
+  { name: "Ayush Kumar", role: "Assist. PR & Outreach Lead", image: `${PLACEHOLDER}38` },
+  {
+    name: "Abhinay Choudhary",
+    role: "Assist. Gaming & Esports Lead",
+    image: teamPhoto("IMG-20260102-WA0030 - Abhinay Choudhari.jpg"),
+  },
+  { name: "Lakshay Chahar", role: "Assist. Gaming & Esports Lead", image: `${PLACEHOLDER}40` },
 ];
 
 const About = () => {
@@ -155,10 +216,10 @@ const About = () => {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-black text-white overflow-x-hidden w-full">
-      <div className="fixed inset-0 z-0 pointer-events-none bg-black" aria-hidden />
+    <div className="relative min-h-screen bg-neutral-950 text-white overflow-x-hidden w-full">
+      <div className="fixed inset-0 z-0 pointer-events-none bg-neutral-950" aria-hidden />
       <div
-        className="fixed inset-0 z-0 pointer-events-none bg-linear-to-b from-transparent via-cyan-950/10 to-amber-950/15"
+        className="fixed inset-0 z-0 pointer-events-none bg-linear-to-b from-transparent via-cyan-950/20 to-amber-950/25"
         aria-hidden
       />
       <ThreeBackground className="z-0" opacity={1} />
@@ -347,14 +408,14 @@ const About = () => {
         {/* Sponsors section */}
         <section
           ref={sponsorsRef}
-          className="about-sponsors-section relative z-10 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-20 sm:pb-24 md:pb-28 lg:pb-32 px-4 sm:px-6 md:px-8 lg:px-10 border-t border-white/10 overflow-hidden"
+          className="about-sponsors-section relative z-10 pt-12 sm:pt-16 md:pt-20 lg:pt-24 pb-20 sm:pb-24 md:pb-28 lg:pb-32 px-0 border-t border-white/10 overflow-hidden"
         >
           <div className="absolute inset-0 pointer-events-none aria-hidden">
             <div className="absolute top-1/4 left-0 w-72 h-72 bg-cyan-500/8 rounded-full blur-3xl -translate-x-1/2" />
             <div className="absolute bottom-1/4 right-0 w-80 h-80 bg-amber-500/6 rounded-full blur-3xl translate-x-1/2" />
           </div>
-          <div className="mx-auto relative max-w-5xl">
-            <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-14">
+          <div className="mx-auto relative w-full">
+            <div className="text-center mb-8 sm:mb-10 md:mb-12 lg:mb-14 px-4 sm:px-6 md:px-8 lg:px-10">
               <h2 className="about-sponsors-title text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold font-rajdhani text-white tracking-tight">
                 Our{" "}
                 <span className="text-transparent bg-clip-text bg-linear-to-r from-amber-400 via-amber-300 to-cyan-400">
@@ -369,13 +430,13 @@ const About = () => {
                 Powered by industry leaders who believe in the future of cybersecurity.
               </p>
             </div>
-            <div className="about-sponsors-logoloop-wrap rounded-2xl border border-white/10 bg-white/4 backdrop-blur-sm py-6 sm:py-8 px-4 sm:px-6 min-h-[120px] sm:min-h-[140px] md:min-h-[160px] shadow-[0_0_40px_rgba(34,211,238,0.06)] hover:border-cyan-400/20 hover:shadow-[0_0_50px_rgba(34,211,238,0.1)] transition-all duration-500">
+            <div className="about-sponsors-logoloop-wrap w-full rounded-none sm:rounded-2xl border-y sm:border border-white/10 bg-white/4 backdrop-blur-sm py-6 sm:py-9 px-0 sm:px-6 min-h-[120px] sm:min-h-[140px] md:min-h-[170px] shadow-[0_0_40px_rgba(34,211,238,0.06)] hover:border-cyan-400/20 hover:shadow-[0_0_55px_rgba(34,211,238,0.12)] transition-all duration-500">
               <LogoLoop
                 logos={SPONSOR_LOGO_ITEMS}
                 speed={80}
                 direction="left"
-                logoHeight={48}
-                gap={48}
+                logoHeight={72}
+                gap={64}
                 pauseOnHover
                 fadeOut
                 fadeOutColor="#000000"
