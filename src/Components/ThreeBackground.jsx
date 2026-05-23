@@ -25,8 +25,7 @@ export default function ThreeBackground({ className = "", opacity = 0.4 }) {
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-    // Dark background so cyan/green/amber elements are clearly visible
-    renderer.setClearColor(0x030304, 0.94);
+    renderer.setClearColor(0x000000, 0.92);
     container.appendChild(renderer.domElement);
 
     const clock = new THREE.Clock();

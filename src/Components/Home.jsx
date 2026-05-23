@@ -1,227 +1,276 @@
-import React, { useState, useRef, useEffect } from "react";
-import { FaHeartbeat } from "react-icons/fa";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { Link } from "react-router-dom";
-import { FaShield } from "react-icons/fa6";
-gsap.registerPlugin(ScrollTrigger);
+import { motion } from "framer-motion";
+import { FaArrowRight, FaCalendarAlt, FaMapMarkerAlt } from "react-icons/fa";
+import ThreeBackground from "./ThreeBackground.jsx";
+import GlassCard from "./ui/GlassCard.jsx";
+import GradientButton from "./ui/GradientButton.jsx";
+import AnimatedCounter from "./ui/AnimatedCounter.jsx";
+import RevealSection from "./ui/RevealSection.jsx";
+import {
+  SITE,
+  STATS,
+  EVENTS,
+  CORE_TEAM,
+  LEADS_TEAM,
+  ABOUT_WHAT_WE_DO,
+} from "../data/xploitData.js";
+import { staggerFast, fadeUp, fadeUpSm, scaleIn, defaultViewport, easeOutExpo } from "./motion/variants.js";
 
-const HACK_WORDS = ["Future.", "Code.", "Systems.", "Networks.", "Reality."];
-const SECURE_WORDS = ["World.", "Networks.", "Data.", "Systems.", "Future."];
+const FEATURED_EVENT_IDS = [7, 1, 8];
+
+const heroLine = {
+  hidden: { opacity: 0, y: 32, filter: "blur(8px)" },
+  visible: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: { duration: 0.65, ease: easeOutExpo },
+  },
+};
 
 export default function Home() {
-  const [showContent, setShowContent] = useState(false);
-  const [hackIndex, setHackIndex] = useState(0);
-  const [secureIndex, setSecureIndex] = useState(0);
-
-  useEffect(() => {
-    if (!showContent) return;
-    const hackInterval = setInterval(() => {
-      setHackIndex((i) => (i + 1) % HACK_WORDS.length);
-    }, 2500);
-    const secureInterval = setInterval(() => {
-      setSecureIndex((i) => (i + 1) % SECURE_WORDS.length);
-    }, 2500);
-    return () => {
-      clearInterval(hackInterval);
-      clearInterval(secureInterval);
-    };
-  }, [showContent]);
-
-  const introRef = useRef(null);
-  const horizontalRef = useRef(null);
-  const trackRef = useRef(null);
-  const videoRef = useRef(null);
-
-  useGSAP(() => {
-    const tl = gsap.timeline();
-
-    tl.to(".vi-mask-group", {
-      rotate: 10,
-      duration: 2.5,
-      ease: "power4.inOut",
-      transformOrigin: "50% 50%",
-    }).to(".vi-mask-group", {
-      scale: 10,
-      opacity: 0,
-      duration: 2.5,
-      delay: -1.8,
-      ease: "expo.inOut",
-      onComplete: () => {
-        setShowContent(true);
-      },
-    });
-  }, []);
-
-  useGSAP(
-    () => {
-      if (!horizontalRef.current || !trackRef.current) return;
-
-      const cards = gsap.utils.toArray(".event-card");
-
-      gsap.to(cards, {
-        xPercent: -100 * (cards.length - 1),
-        ease: "none",
-        scrollTrigger: {
-          trigger: horizontalRef.current,
-          pin: true,
-          scrub: 1,
-          snap: 1 / (cards.length - 1),
-          end: () => "+=" + trackRef.current.offsetWidth,
-        },
-      });
-    },
-    { dependencies: [showContent] }
-  );
-
-  useGSAP(
-    () => {
-      if (!showContent) return;
-      const tl = gsap.timeline({ defaults: { ease: "power3.out" } });
-      tl.from(".hero-header", { y: -24, opacity: 0, duration: 0.5 })
-        .from(".hero-title", { y: 32, opacity: 0, duration: 0.6 }, "-=0.2")
-        .from(".hero-desc", { y: 20, opacity: 0, duration: 0.5 }, "-=0.35")
-        .from(".hero-ctas", { y: 16, opacity: 0, duration: 0.4 }, "-=0.3")
-        .from(".hero-feed", { x: 48, opacity: 0, duration: 0.6 }, "-=0.5");
-    },
-    { dependencies: [showContent] }
-  );
-
-  useEffect(() => {
-    if (showContent && videoRef.current) {
-      videoRef.current.play().catch((err) => console.error("Video play failed:", err));
-    }
-  }, [showContent]);
+  const featured = FEATURED_EVENT_IDS.map((id) => EVENTS.find((e) => e.id === id)).filter(Boolean);
+  const teamPreview = [...CORE_TEAM, ...LEADS_TEAM.slice(0, 5)];
 
   return (
     <>
-      {!showContent && (
-        <div
-          ref={introRef}
-          className="svg fixed inset-0 z-100 flex items-center justify-center bg-black w-full h-full min-h-screen"
-        >
-          <svg 
-            viewBox="0 0 800 600" 
-            preserveAspectRatio="xMidYMid slice" 
-            className="w-full h-full min-h-dvh object-cover"
+      <div className="pointer-events-none fixed inset-0 z-[1]">
+        <ThreeBackground opacity={0.32} />
+      </div>
+
+      <div className="relative z-[2]">
+        {/* Hero */}
+        <section className="relative min-h-[calc(100dvh-4rem)] flex flex-col justify-center px-4 py-16 sm:px-6 md:px-8 lg:px-10">
+          <motion.div
+            className="mx-auto w-full max-w-7xl"
+            variants={staggerFast}
+            initial="hidden"
+            animate="visible"
           >
-            <defs>
-              <mask id="viMask">
-                <rect width="100%" height="100%" fill="black" />
-                <g className="vi-mask-group">
-                  <text
-                    x="50%"
-                    y="50%"
-                    fontSize="250"
-                    textAnchor="middle"
-                    dominantBaseline="middle"
-                    fill="white"
-                    fontFamily="Arial Black"
-                  >
-                    X
-                  </text>
-                </g>
-              </mask>
-            </defs>
-
-            <image
-              href="/Images/logo.png"
-              width="100%"
-              height="100%"
-              preserveAspectRatio="xMidYMid slice"
-              mask="url(#viMask)"
-            />
-          </svg>
-        </div>
-      )}
-
-      {showContent && (
-        <div className="relative min-h-screen bg-black text-white overflow-x-hidden w-full">
-          <div className="fixed inset-0 z-0 pointer-events-none">
-            <video
-              ref={videoRef}
-              muted
-              autoPlay
-              loop
-              playsInline
-              preload="auto"
-              className="w-full h-full object-cover min-h-full min-w-full"
-              style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%" }}
+            <motion.p
+              variants={heroLine}
+              className="font-inter text-sm font-semibold uppercase tracking-[0.2em] text-cyan-300/80"
             >
-              <source src="/Images/cy1.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-            <div className="absolute inset-0 bg-black/80 md:bg-black/60" aria-hidden />
-          </div>
-          <main className="relative z-10">
-            <header className="hero-header px-4 py-3 sm:px-6 sm:py-4 md:px-10 md:py-6 flex justify-between items-center pt-[max(0.75rem,env(safe-area-inset-top))]">
-              <div className="flex items-center gap-1.5 sm:gap-2 text-lg sm:text-xl md:text-2xl font-bold font-rajdhani">
-                <FaShield className="w-5 h-5 sm:w-6 sm:h-6 shrink-0" /> 
-                <span className="truncate">XPLOIT</span>
-              </div>
-              <nav className="flex gap-3 sm:gap-5 md:gap-8 lg:gap-16 font-rajdhani font-semibold text-xs sm:text-sm md:text-base">
-                <Link to="/Events" className="cursor-pointer hover:text-amber-400 transition-colors">EVENTS</Link>
-                <Link to="/about" className="cursor-pointer hover:text-amber-400 transition-colors">ABOUT</Link>
-                <Link to="/contact" className="sm:inline cursor-pointer hover:text-amber-400 transition-colors">CONTACT</Link>
-              </nav>
-            </header>
+              {SITE.tagline}
+            </motion.p>
+            <motion.h1
+              variants={heroLine}
+              className="mt-4 font-poppins text-4xl font-bold leading-[1.08] tracking-tight text-white sm:text-5xl md:text-6xl lg:text-7xl"
+            >
+              <span className="bg-gradient-to-r from-white via-cyan-100 to-violet-200 bg-clip-text text-transparent">
+                {SITE.heroTitle}
+              </span>
+            </motion.h1>
+            <motion.p
+              variants={heroLine}
+              className="mt-6 max-w-2xl font-inter text-base leading-relaxed text-slate-400 sm:text-lg"
+            >
+              {SITE.heroSub}
+            </motion.p>
+            <motion.div variants={heroLine} className="mt-10 flex flex-wrap items-center gap-4">
+              <GradientButton to="/contact" variant="primary">
+                Join us <FaArrowRight className="h-4 w-4" />
+              </GradientButton>
+              <GradientButton to="/events" variant="ghost">
+                Explore events
+              </GradientButton>
+            </motion.div>
+          </motion.div>
 
-            <section className="min-h-[calc(100vh-5rem)] flex flex-col lg:flex-row items-center justify-between gap-10 lg:gap-12 px-4 sm:px-6 md:px-10 lg:px-12 py-12 lg:py-0">
-          
-              <div className="flex-1 max-w-2xl lg:max-w-none text-left">
-                <h1 className="hero-title text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold font-rajdhani leading-tight">
-                  <span className="text-cyan-400 text-shadow-blue-600 text-shadow-lg">
-                    Hack the <span className="inline-block min-w-[8ch] sm:min-w-[9ch] align-baseline animate-fade-in-word text-lime-400" key={hackIndex}>{HACK_WORDS[hackIndex]}</span>
-                  </span>
-                  <br />
-                  <span className="text-cyan-400 text-shadow-blue-600 text-shadow-lg">
-                    Secure the <span className="inline-block min-w-[8ch] sm:min-w-[9ch] align-baseline animate-fade-in-word text-amber-400" key={secureIndex}>{SECURE_WORDS[secureIndex]}</span>
-                  </span>
-                </h1>
-                <p className="hero-desc mt-5 sm:mt-6 text-base sm:text-lg text-white  text-left max-w-xl">
-                  XPLOIT is a student-led cybersecurity club exploring ethical hacking, CTFs, network security, and bug bounties. Learn by breaking, build by securing—join a community of builders, breakers, and defenders.
+          <motion.div
+            className="pointer-events-none absolute bottom-8 left-1/2 flex -translate-x-1/2 flex-col items-center gap-2"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.65 }}
+            transition={{ delay: 1, duration: 0.6 }}
+          >
+            <span className="text-xs font-inter uppercase tracking-widest text-slate-500">Scroll</span>
+            <motion.span
+              className="h-8 w-px rounded-full bg-gradient-to-b from-cyan-400/80 to-transparent"
+              animate={{ scaleY: [1, 0.45, 1], opacity: [0.9, 0.35, 0.9] }}
+              transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut" }}
+            />
+          </motion.div>
+        </section>
+
+        {/* Stats */}
+        <RevealSection className="border-y border-white/[0.06] bg-black/20 py-16 sm:py-20">
+          <motion.div
+            className="mx-auto grid max-w-7xl grid-cols-1 gap-6 px-4 sm:grid-cols-3 sm:px-6 md:px-8 lg:px-10"
+            variants={staggerFast}
+            initial="hidden"
+            whileInView="visible"
+            viewport={defaultViewport}
+          >
+            {STATS.map((s) => (
+              <motion.div key={s.label} variants={scaleIn}>
+                <GlassCard className="p-6 text-center sm:p-8">
+                  <p className="font-poppins text-3xl font-bold text-white sm:text-4xl md:text-5xl">
+                    <AnimatedCounter value={s.value} suffix={s.suffix} />
+                  </p>
+                  <p className="mt-2 font-inter text-sm text-slate-400">{s.label}</p>
+                </GlassCard>
+              </motion.div>
+            ))}
+          </motion.div>
+        </RevealSection>
+
+        {/* About preview */}
+        <RevealSection className="py-16 sm:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10">
+            <motion.div
+              className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              <motion.div variants={fadeUp}>
+                <h2 className="font-poppins text-3xl font-bold text-white sm:text-4xl">Who we are</h2>
+                <p className="mt-3 max-w-xl font-inter text-slate-400">
+                  XPLOIT is the cybersecurity club at IIIT Bhopal—student-led, hands-on, and obsessed with ethical hacking and defense.
                 </p>
-                <div className="hero-ctas flex flex-wrap gap-4 mt-8 sm:mt-10">
-                  <button
-                    className="px-6 py-3 rounded-lg text-base font-semibold text-white bg-cyan-400 hover:bg-cyan-300 hover:scale-105 active:scale-100 transition-all duration-200 shadow-[0_0_20px_rgba(34,211,238,0.4)]"
-                  >
-                    Join Club
-                  </button>
-                  <Link
-                    to="/Events"
-                    className="px-6 py-3 rounded-lg text-base font-semibold text-cyan-400 border-2 border-cyan-400 hover:bg-cyan-400/10 hover:scale-105 active:scale-100 transition-all duration-200"
-                  >
-                    Explore Events
-                  </Link>
-                </div>
-              </div>
+              </motion.div>
+              <motion.div variants={fadeUpSm}>
+                <Link
+                  to="/about"
+                  className="inline-flex items-center gap-2 font-inter text-sm font-semibold text-cyan-300 hover:text-cyan-200"
+                >
+                  Full story <FaArrowRight className="h-3.5 w-3.5" />
+                </Link>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="mt-10 grid gap-5 md:grid-cols-3"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              {ABOUT_WHAT_WE_DO.map((item) => (
+                <motion.div key={item.title} variants={scaleIn} whileHover={{ y: -4 }} transition={{ duration: 0.3, ease: easeOutExpo }}>
+                  <GlassCard className="p-6 sm:p-7" hover>
+                    <h3 className="font-poppins text-lg font-semibold text-white">{item.title}</h3>
+                    <p className="mt-2 font-inter text-sm leading-relaxed text-slate-400">{item.body}</p>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </RevealSection>
 
-              <div className="hero-feed shrink-0 w-full lg:max-w-md">
-                <div className="flex items-center gap-2 mb-3">
-                  <span className="text-lg font-semibold text-lime-400 font-rajdhani tracking-wide">
-                    LIVE CYBER FEED
-                  </span>
-                  <FaHeartbeat className="w-5 h-5 text-lime-400 shrink-0" />
-                </div>
-                <div className="rounded-lg border border-gray-600/80 bg-black/60 backdrop-blur-sm p-4 min-h-55 max-h-70 overflow-y-auto font-mono text-sm">
-                  <div className="text-white/90">00, 443, 2000 ... open</div>
-                  <div className="text-gray-400 mt-1">&gt; CTF ::</div>
-                  <div className="text-lime-400 mt-0.5">flag&#123;knowledge_is_power&#125;</div>
-                  <div className="text-gray-400 mt-1">&gt; NET :: handshake</div>
-                  <div className="text-white/90 mt-0.5">established :: TLS 1.3</div>
-                  <div className="text-gray-400 mt-1">&gt; BUG :: bounty target</div>
-                  <div className="text-white/90 mt-0.5">queued ...</div>
-                </div>
-                <div className="flex items-center gap-2 mt-3 text-gray-300 text-sm">
-                  <span className="w-2 h-2 rounded-full bg-lime-400 shrink-0" />
-                  <span>Members online: 42</span>
-                </div>
-              </div>
-            </section>
-          </main>
-        </div>
-      )}
+        {/* Featured events */}
+        <RevealSection className="py-16 sm:py-24">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10">
+            <motion.div
+              className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              <motion.h2 variants={fadeUp} className="font-poppins text-3xl font-bold text-white sm:text-4xl">
+                Featured events
+              </motion.h2>
+              <motion.div variants={fadeUpSm}>
+                <Link to="/events" className="font-inter text-sm font-semibold text-violet-300 hover:text-violet-200">
+                  View all →
+                </Link>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="mt-10 grid gap-6 lg:grid-cols-3"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              {featured.map((event) => (
+                <motion.div
+                  key={event.id}
+                  variants={scaleIn}
+                  whileHover={{ y: -8, transition: { duration: 0.35, ease: easeOutExpo } }}
+                >
+                  <GlassCard className="group overflow-hidden p-0" hover>
+                    <div className="relative aspect-[16/10] overflow-hidden">
+                      <motion.img
+                        src={event.image}
+                        alt=""
+                        className="h-full w-full object-cover"
+                        whileHover={{ scale: 1.08 }}
+                        transition={{ duration: 0.55, ease: easeOutExpo }}
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent" />
+                      <span className="absolute left-4 top-4 rounded-lg border border-cyan-400/35 bg-cyan-400/15 px-2.5 py-1 font-inter text-xs font-semibold text-cyan-200 backdrop-blur-md">
+                        {event.tag}
+                      </span>
+                    </div>
+                    <div className="p-5 sm:p-6">
+                      <h3 className="font-poppins text-lg font-semibold text-white transition-colors group-hover:text-cyan-200">{event.title}</h3>
+                      <div className="mt-3 flex flex-wrap gap-3 font-inter text-xs text-slate-400 sm:text-sm">
+                        <span className="inline-flex items-center gap-1.5">
+                          <FaCalendarAlt className="text-cyan-400/80" /> {event.date}
+                        </span>
+                        <span className="inline-flex items-center gap-1.5">
+                          <FaMapMarkerAlt className="text-violet-400/80" /> {event.venue}
+                        </span>
+                      </div>
+                      <p className="mt-3 line-clamp-2 font-inter text-sm text-slate-400">{event.desc}</p>
+                    </div>
+                  </GlassCard>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </RevealSection>
+
+        {/* Team preview */}
+        <RevealSection className="pb-20 sm:pb-28">
+          <div className="mx-auto max-w-7xl px-4 sm:px-6 md:px-8 lg:px-10">
+            <motion.div
+              className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              <motion.h2 variants={fadeUp} className="font-poppins text-3xl font-bold text-white sm:text-4xl">
+                The crew
+              </motion.h2>
+              <motion.div variants={fadeUpSm}>
+                <Link to="/team" className="font-inter text-sm font-semibold text-cyan-300 hover:text-cyan-200">
+                  Meet the team →
+                </Link>
+              </motion.div>
+            </motion.div>
+            <motion.div
+              className="mt-10 flex flex-wrap justify-center gap-6 sm:gap-8 md:justify-start"
+              variants={staggerFast}
+              initial="hidden"
+              whileInView="visible"
+              viewport={defaultViewport}
+            >
+              {teamPreview.map((m, idx) => (
+                <motion.div
+                  key={m.name}
+                  variants={scaleIn}
+                  custom={idx}
+                  whileHover={{ scale: 1.06, y: -4 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 22 }}
+                  className="group relative flex w-[100px] flex-col items-center sm:w-[112px]"
+                >
+                  <div className="relative h-24 w-24 overflow-hidden rounded-full border-2 border-white/10 shadow-[0_0_24px_rgba(139,92,246,0.15)] transition-all duration-300 group-hover:border-cyan-400/50 group-hover:shadow-[0_0_32px_rgba(34,211,238,0.25)] sm:h-28 sm:w-28">
+                    <img src={m.image} alt="" className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                    <div className="absolute inset-0 flex flex-col items-center justify-end bg-gradient-to-t from-black/95 via-black/50 to-transparent p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      <span className="text-center font-inter text-[10px] font-semibold leading-tight text-white sm:text-xs">{m.name.split(" ")[0]}</span>
+                      <span className="mt-0.5 text-center font-inter text-[9px] text-cyan-200/90 sm:text-[10px]">{m.role}</span>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
+        </RevealSection>
+      </div>
     </>
   );
 }
