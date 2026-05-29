@@ -13,7 +13,7 @@ import { TeamSection } from "@/components/sections/TeamSection";
 
 export default function HomePage() {
   return (
-    <main className="relative min-h-screen overflow-x-hidden bg-portfolio-base">
+    <main className="relative min-h-screen overflow-x-hidden max-w-full mx-auto bg-portfolio-base">
       <ImmersiveBackdrop />
       <div className="grain" aria-hidden="true" />
       <CursorGlow />

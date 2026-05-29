@@ -15,8 +15,8 @@ export function Navbar() {
           href="#home"
           className="group font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-white/90 transition hover:text-white"
         >
-          <span className="text-white/50 transition group-hover:text-portfolio-accent">{"///"}</span>{" "}
-          CS Club
+          <span className="text-white/50 transition group-hover:text-portfolio-accent">{""}</span>{""}
+          XPLOIT
         </a>
         <button
           aria-label="Toggle menu"

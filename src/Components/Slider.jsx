@@ -269,6 +269,7 @@ export const LogoLoop = memo(
         }
 
         const isNodeItem = 'node' in item;
+        const isVideoItem = item.type === 'video' || (item.src && /\.(mp4|webm|ogg|mov)$/i.test(item.src));
 
         const content = isNodeItem ? (
           <span
@@ -282,6 +283,24 @@ export const LogoLoop = memo(
           >
             {item.node}
           </span>
+        ) : isVideoItem ? (
+          <video
+            className={cx(
+              'h-[var(--logoloop-logoHeight)] w-auto block object-contain',
+              '[-webkit-user-drag:none] pointer-events-none',
+              'motion-reduce:transition-none',
+              scaleOnHover &&
+                'transition-transform duration-300 ease-in-out group-hover/item:scale-120'
+            )}
+            src={item.src}
+            title={item.title}
+            draggable={false}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="metadata"
+          />
         ) : (
           <img
             className={cx(

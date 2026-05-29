@@ -16,10 +16,6 @@ export function HeroSection() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
       >
-        <p className="mb-6 max-w-xl font-mono text-[11px] font-medium uppercase leading-relaxed tracking-[0.3em] text-portfolio-muted">
-          IIIT Bhopal // Ethical hackers · Researchers · Builders
-        </p>
-
         <h1 className="max-w-[14ch] text-[clamp(2.5rem,10.5vw,7.5rem)] font-semibold leading-[0.92] tracking-[-0.03em] text-white md:max-w-[18ch]">
           Cybersecurity
           <br />
@@ -31,8 +27,7 @@ export function HeroSection() {
         </p>
 
         <p className="mt-6 max-w-xl text-base leading-relaxed text-portfolio-muted md:mt-8 md:text-lg md:leading-relaxed">
-          We are a community of ethical hackers, security researchers, and developers
-          passionate about cybersecurity, digital privacy, and building secure systems.
+     Xploit brings together students interested in cybersecurity, ethical hacking, and technology. We learn, share knowledge, and solve real-world security challenges while building practical skills.
         </p>
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-14">
