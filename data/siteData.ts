@@ -69,8 +69,8 @@ export const expertise = [
 ];
 
 export const gallery = [
-  "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1526378722484-bd91ca387e72?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80",
-  "https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=900&q=80",
+  "/Gallery/twot.png",
+  "/Gallery/onet.jpeg",
+  "/Gallery/twot.png",
+  "/Gallery/gallery4.jpg",
 ];
