@@ -4,7 +4,7 @@
 
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-import Log from "../sections/Logoloop"
+import Log from "@/components/sections/Logoloop"
 export function ContactSection() {
   return (
     <>

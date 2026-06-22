@@ -4,7 +4,7 @@ import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { gallery } from "@/data/siteData";
 import Image from "next/image";
-import CircularGallery from "../CircularGallery.jsx"
+import CircularGallery from "@/components/CircularGallery"
 import { useEffect } from "react";
 
 export function GallerySection() {
