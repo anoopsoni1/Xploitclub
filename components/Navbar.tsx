@@ -9,14 +9,17 @@ export function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="fixed left-0 right-0 top-0 z-40">
-      <nav className="mx-auto flex w-full max-w-[1400px] items-center justify-between px-5 py-6 md:px-8 md:py-8">
+    <header className="absolute left-0 right-0 top-0 z-40">
+      <nav className="mx-auto flex w-full  items-center justify-between px-5 py-6 md:px-8 md:py-8">
         <a
           href="#home"
           className="group font-mono text-[11px] font-medium uppercase tracking-[0.22em] text-white/90 transition hover:text-white"
         >
-          <span className="text-white/50 transition group-hover:text-portfolio-accent">{""}</span>{""}
-          XPLOIT
+          <span className="text-white/50 transition  group-hover:text-portfolio-accent">{""}</span>{""}
+         <div className="flex  place-items-center gap-0">
+          <img className="h-[5vh]" src="/Images/logo.png" alt="" />
+          <h3 className="text-white/50 transition  group-hover:text-portfolio-accent">XPLOIT</h3>
+          </div>
         </a>
         <button
           aria-label="Toggle menu"

@@ -1,14 +1,30 @@
+"use client"
+
+
+
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
-
+import Log from "../sections/Logoloop"
 export function ContactSection() {
   return (
+    <>
+     <div id="contact" className="px-5  md:px-8  lg:px-14">
+      <Reveal>
+            <SectionHeading
+              index="06"
+              title="Meet Our Sponsors"
+              subtitle="Supporting our mission to educate, innovate, and secure the digital future."
+            />
+             <Log />
+          </Reveal>
+          </div>
+   
     <section id="contact" className="px-5 py-24 md:px-8 md:py-32 lg:px-14">
-      <div className="mx-auto grid max-w-[1400px] gap-14 lg:grid-cols-12 lg:gap-16">
+      <div className="mx-auto grid gap-14 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
           <Reveal>
             <SectionHeading
-              index="06"
+              index="07"
               title="Get in Touch"
               subtitle="Collaborate on workshops, CTFs, and security initiatives."
             />
@@ -75,5 +91,6 @@ export function ContactSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

@@ -5,7 +5,7 @@ import { expertise } from "@/data/siteData";
 export function ExpertiseSection() {
   return (
     <section id="expertise" className="px-5 py-24 md:px-8 md:py-32 lg:px-14">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto ">
         <Reveal>
           <SectionHeading
             index="04"

@@ -27,15 +27,15 @@ export function AboutSection() {
 
   const slides = [
     {
-      subtitle: "Cybersecurity in Action",
+      subtitle: "",
       img: "/videos/Video-510.mp4",
     },
     {
-      subtitle: "Hands-on Hacking Labs",
+      subtitle: "",
       img: "/videos/Video-607.mp4",
     },
     {
-      subtitle: "CTF Competitions & Learning",
+      subtitle: "",
       img: "/videos/Video-188.mp4",
     },
   ];
@@ -130,22 +130,17 @@ export function AboutSection() {
       ref={sectionRef}
       className="px-5 py-16 md:px-8 md:py-24 lg:px-14"
     >
-      <div className="mx-auto max-w-[1400px] flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+      <div className="mx-auto  flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
         <div className="w-full lg:w-1/2">
           <Reveal>
             <SectionHeading
               index="01"
               title="Who We Are"
-              subtitle="Fostering security awareness, ethical hacking, and hands-on engineering."
+              subtitle="Breaking , Fixing and Securing "
             />
 
             <p className="max-w-3xl text-base sm:text-lg md:text-xl leading-relaxed text-portfolio-muted">
-              Xploit is the Cybersecurity Club of IIIT Bhopal. We bring
-              together students interested in ethical hacking,
-              cybersecurity, and technology. Through workshops, CTFs,
-              projects, and security challenges, we help students build
-              practical skills, solve real-world problems, and grow as
-              security professionals.
+             We are a community of ethical hackers, security researchers, and builders. From breaking into vulnerable APIs to mastering the latest exploit techniques, we dive deep into the offensive and defensive mindsets. Whether you're here to dominate CTFs or write your first security write-up, you'll find your crew here. Terminal open. Let’s hunt
             </p>
           </Reveal>
         </div>

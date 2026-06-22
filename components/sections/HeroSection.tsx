@@ -11,7 +11,7 @@ export function HeroSection() {
     >
       <HeroScene />
       <motion.div
-        className="mx-auto w-full max-w-[1400px]"
+        className="mx-auto w-full "
         initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
@@ -27,8 +27,13 @@ export function HeroSection() {
         </p>
 
         <p className="mt-6 max-w-xl text-base leading-relaxed text-portfolio-muted md:mt-8 md:text-lg md:leading-relaxed">
-     Xploit brings together students interested in cybersecurity, ethical hacking, and technology. We learn, share knowledge, and solve real-world security challenges while building practical skills.
+    Welcome to the ultimate playground for cybersecurity enthusiasts. We bridge the gap between classroom theory and real-world chaos. Join us to decrypt complex challenges, master OSINT, and build bulletproof defense strategies.
         </p>
+
+        <p className="mt-6 max-w-xl font-mono text-sm font-medium text-portfolio-accent/95 md:mt-8">
+        No fluff. Just pure, unadulterated hands-on security!
+        </p>
+
 
         <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4 md:mt-14">
           <a

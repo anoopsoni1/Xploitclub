@@ -11,7 +11,7 @@ export function TeamSection() {
 
   return (
     <section id="team" className="px-5 py-24 md:px-8 md:py-32 lg:px-14">
-      <div className="mx-auto max-w-[1400px]">
+      <div className="mx-auto">
         <div className="flex items-center justify-between mb-8">
           <Reveal>
             <SectionHeading
