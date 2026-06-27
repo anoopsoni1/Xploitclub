@@ -23,6 +23,9 @@ export const metadata: Metadata = {
     title: "Cybersecurity Club - IIIT Bhopal",
     description: "Securing the Digital Future",
     type: "website",
+    icons: {
+      icon: "/Images/logo.png",
+    },
   },
 };
 

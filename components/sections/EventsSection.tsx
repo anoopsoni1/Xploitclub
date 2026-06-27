@@ -18,7 +18,7 @@ export function EventsSection() {
   }));
 
   const hadlenavigate = ()=>{
-       window.location.href = "/events"
+       window.location.href = "/Event"
   }
 
   return (

@@ -1,3 +1,5 @@
+"use client"
+
 import { CornerMeta } from "@/components/CornerMeta";
 import { CursorGlow } from "@/components/CursorGlow";
 import { Footer } from "@/components/Footer";
@@ -10,10 +12,21 @@ import { ExpertiseSection } from "@/components/sections/ExpertiseSection";
 import { GallerySection } from "@/components/sections/GallerySection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { TeamSection } from "@/components/sections/TeamSection";
-
+import Preloader from "@/components/Preloader";
+import { useState } from "react";
 export default function HomePage() {
+
+  const [loading, setLoading] = useState(true);
   return (
-    <main className="relative min-h-screen overflow-x-hidden max-w-full mx-auto bg-portfolio-base">
+    <>
+
+{loading && (
+        <Preloader
+          onComplete={() => setLoading(false)}
+        />
+      )}
+
+    <main className="relative min-h-screen overflow-x-hidden max-w-full mx-auto bg-white">
       <ImmersiveBackdrop />
       <div className="grain" aria-hidden="true" />
       <CursorGlow />
@@ -30,5 +43,6 @@ export default function HomePage() {
         <Footer />
       </div>
     </main>
+    </>
   );
 }
