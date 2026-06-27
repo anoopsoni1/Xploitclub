@@ -19,13 +19,14 @@ export const metadata: Metadata = {
   title: "Cybersecurity Club - IIIT Bhopal",
   description:
     "Cybersecurity Club at IIIT Bhopal: ethical hacking, CTFs, workshops, and secure systems.",
+    icons : {
+    icon : "/Images/lo.png",
+     
+    } ,
   openGraph: {
     title: "Cybersecurity Club - IIIT Bhopal",
     description: "Securing the Digital Future",
     type: "website",
-    icons: {
-      icon: "/Images/logo.png",
-    },
   },
 };
 
